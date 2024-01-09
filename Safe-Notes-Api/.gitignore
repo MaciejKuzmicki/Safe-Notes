@@ -13,7 +13,9 @@
 
 # Mono Auto Generated Files
 mono_crash.*
-
+Safe-Notes-Api.csproj
+Safe-Notes-Api.sln
+.idea/
 # Build results
 [Dd]ebug/
 [Dd]ebugPublic/
