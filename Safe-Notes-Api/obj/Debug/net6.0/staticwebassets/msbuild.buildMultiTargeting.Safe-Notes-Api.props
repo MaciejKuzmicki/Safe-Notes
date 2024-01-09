@@ -1,0 +1,3 @@
+﻿<Project>
+  <Import Project="..\build\Safe-Notes-Api.props" />
+</Project>

@@ -1,0 +1,30 @@
+version: '3.8'
+services:
+  postgres:
+    image: postgres
+    environment:
+      POSTGRES_DB: notes
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - "5434:5434"
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+
+  api:
+    build:
+      context: ./Safe-Notes-Api
+    depends_on:
+      - postgres
+    ports:
+      - "8000:80"
+
+  angular:
+    build:
+      context: ./Safe-Notes-Frontend
+    ports:
+      - "4200:80"
+
+
+volumes:
+  postgres-data:
