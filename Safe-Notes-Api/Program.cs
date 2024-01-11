@@ -15,6 +15,10 @@ builder.Services.AddDbContext<DatabaseContext>(o =>
 builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<INoteService, NoteService>();
 
+var jwtSettings = new JwtSettings();
+builder.Configuration.Bind(nameof(JwtSettings), jwtSettings);
+builder.Services.AddSingleton(jwtSettings);
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -25,7 +29,7 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
-
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();

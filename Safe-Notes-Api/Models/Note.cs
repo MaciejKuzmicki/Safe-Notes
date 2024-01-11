@@ -4,6 +4,7 @@ namespace Safe_Notes_Api.Models;
 
 public class Note
 {
+    [Key]
     public Guid NoteId { get; set; }
     
     public Guid UserId { get; set; }
