@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using Safe_Notes_Api.Models;
+using Safe_Notes_Api.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -11,6 +12,9 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<DatabaseContext>(o =>
     o.UseNpgsql(builder.Configuration.GetConnectionString("Database")));
+builder.Services.AddScoped<IAuthService, AuthService>();
+builder.Services.AddScoped<INoteService, NoteService>();
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
