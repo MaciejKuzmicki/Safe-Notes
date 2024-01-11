@@ -22,19 +22,29 @@ namespace Safe_Notes_Api.Controllers
             if (response.Success) return Ok(response.Data);
             else if (response.StatusCode == HttpStatusCode.Conflict)
             {
-                return Conflict("There exists user on given account");
+                return Conflict(response.Message);
             }
             else if (response.StatusCode == HttpStatusCode.InternalServerError)
             {
-                return StatusCode((int)HttpStatusCode.InternalServerError, "Some internal server error happend");
+                return StatusCode((int)HttpStatusCode.InternalServerError, response.Message);
             }
             else return NoContent();
         }
 
         [HttpPost("login")]
-        public async Task<ActionResult> Login()
+        public async Task<ActionResult> Login([FromBody] LoginRequestDto user)
         {
-            return Ok();
+            var response = await _authService.Login(user);
+            if (response.Success) return Ok(response.Data);
+            else if (response.StatusCode == HttpStatusCode.NotFound)
+            {
+                return NotFound(response.Message);
+            }
+            else if (response.StatusCode == HttpStatusCode.Unauthorized)
+            {
+                return Unauthorized(response.Message);
+            }
+            else return NoContent();
         }
         
     }
