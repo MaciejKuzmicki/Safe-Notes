@@ -3,20 +3,44 @@
   <div class="card w-96 bg-base-100  shadow-xl">
     <div class="card-body">
       <h1 class="card-title justify-center">Register</h1>
-      <form>
+      <form [formGroup]="myForm" (ngSubmit)="onSubmit()">
         <div class="mt-2">
-          <input type="text" placeholder="Type your e-mail">
+          <input type="text" id="email" name="email" placeholder="Type your e-mail" formControlName="email">
+        </div>
+        <div *ngIf="myForm.controls['email'].invalid && (myForm.controls['email'].dirty || myForm.controls['email'].touched)" class="text-red-600">
+          <small *ngIf="myForm.controls['email'].errors?.['required']">Email is required.</small>
+          <small *ngIf="myForm.controls['email'].errors?.['email']">Invalid email format.</small>
         </div>
         <div class="mt-2">
-          <input type="password" placeholder="Type your password">
+          <input type="password" id="password" name="password" placeholder="Type your password" formControlName="password">
+        </div>
+        <div *ngIf="myForm.controls['password'].invalid && (myForm.controls['password'].dirty || myForm.controls['password'].touched)" class="text-red-600">
+          <small *ngIf="myForm.controls['password'].errors?.['required']">Password is required.</small>
+          <small *ngIf="myForm.controls['password'].errors?.['minlength']">The password is too short.</small>
         </div>
         <div class="mt-2">
-          <input type="password" placeholder="Repeat your password">
+          <input type="password" id="password2" name="password2" placeholder="Repeat your password" formControlName="password2">
         </div>
-        <div class="card-actions justify-end">
-          <button class="btn btn-primary">Buy Now</button>
+        <div *ngIf="myForm.controls['password2'].invalid && (myForm.controls['password2'].dirty || myForm.controls['password2'].touched)" class="text-red-600">
+          <small *ngIf="myForm.controls['password2'].errors?.['required']">Password is required.</small>
+          <small *ngIf="myForm.controls['password2'].errors?.['minlength']">The password is too short.</small>
+          <small *ngIf="true">Passwords are not the same.</small>
         </div>
+
+        <div class="mt-2">
+          <div class="card-actions justify-end">
+            <button type="submit" class="btn btn-accent">Register</button>
+          </div>
+        </div>
+
       </form>
+      <div class="mt-2" *ngIf="errorMessage.length>0">
+        <div role="alert" class="alert alert-error">
+          <svg xmlns="http://www.w3.org/2000/svg" class="stroke-current shrink-0 h-6 w-6" fill="none" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+          <span>{{ errorMessage }}</span>
+        </div>
+      </div>
+
     </div>
   </div>
 </div>
