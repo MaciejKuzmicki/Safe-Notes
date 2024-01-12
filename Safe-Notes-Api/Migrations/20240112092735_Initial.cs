@@ -17,7 +17,7 @@ namespace Safe_Notes_Api.Migrations
                     Email = table.Column<string>(type: "text", nullable: false),
                     PasswordHash = table.Column<byte[]>(type: "bytea", nullable: false),
                     PasswordSalt = table.Column<byte[]>(type: "bytea", nullable: false),
-                    TOTPSecret = table.Column<string>(type: "text", nullable: false)
+                    TOTPSecret = table.Column<byte[]>(type: "bytea", nullable: false)
                 },
                 constraints: table =>
                 {

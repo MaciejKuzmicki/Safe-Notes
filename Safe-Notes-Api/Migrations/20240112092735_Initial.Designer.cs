@@ -12,7 +12,7 @@ using Safe_Notes_Api.Models;
 namespace Safe_Notes_Api.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    [Migration("20240111104711_Initial")]
+    [Migration("20240112092735_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -65,9 +65,9 @@ namespace Safe_Notes_Api.Migrations
                         .IsRequired()
                         .HasColumnType("bytea");
 
-                    b.Property<string>("TOTPSecret")
+                    b.Property<byte[]>("TOTPSecret")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasColumnType("bytea");
 
                     b.HasKey("UserId");
 

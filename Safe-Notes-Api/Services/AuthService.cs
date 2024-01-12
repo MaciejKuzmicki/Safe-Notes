@@ -63,7 +63,7 @@ public class AuthService : IAuthService
                 Data = null,
             };
         }
-        //create token and return 
+
         var key = Encoding.ASCII.GetBytes(_jwtSettings.Secret);
         var tokenHandler = new JwtSecurityTokenHandler();
         var tokenDescriptor = new SecurityTokenDescriptor

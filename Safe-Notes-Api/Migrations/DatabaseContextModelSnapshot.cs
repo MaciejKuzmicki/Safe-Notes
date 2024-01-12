@@ -63,9 +63,9 @@ namespace Safe_Notes_Api.Migrations
                         .IsRequired()
                         .HasColumnType("bytea");
 
-                    b.Property<string>("TOTPSecret")
+                    b.Property<byte[]>("TOTPSecret")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasColumnType("bytea");
 
                     b.HasKey("UserId");
 
