@@ -3,18 +3,32 @@
   <div class="card w-96 bg-base-100  shadow-xl">
     <div class="card-body">
       <h1 class="card-title justify-center">Login</h1>
-      <form>
+      <form [formGroup]="myForm" (ngSubmit)="onSubmit()">
         <div class="mt-2">
-          <input type="text" placeholder="Type your e-mail">
+          <input type="text" id="email" name="email" formControlName="email" placeholder="Type your e-mail">
+        </div>
+        <div *ngIf="myForm.controls['email'].invalid && (myForm.controls['email'].dirty || myForm.controls['email'].touched)" class="text-red-600">
+          <small *ngIf="myForm.controls['email'].errors?.['required']">Email is required.</small>
+          <small *ngIf="myForm.controls['email'].errors?.['email']">Invalid email format.</small>
         </div>
         <div class="mt-2">
-          <input type="password" placeholder="Type your password">
+          <input type="password" id="password" name="password" formControlName="password" placeholder="Type your password">
+        </div>
+        <div *ngIf="myForm.controls['password'].invalid && (myForm.controls['password'].dirty || myForm.controls['password'].touched)" class="text-red-600">
+          <small *ngIf="myForm.controls['password'].errors?.['required']">Password is required.</small>
+          <small *ngIf="myForm.controls['password'].errors?.['minlength']">The password is too short.</small>
         </div>
         <div class="mt-2">
-          <input type="number" placeholder="Type totp code">
+          <input type="number" id="totp" name="totp" formControlName="totp" placeholder="Type totp code">
         </div>
-        <div class="card-actions justify-end">
-          <button class="btn btn-primary">Buy Now</button>
+        <div *ngIf="myForm.controls['totp'].invalid && (myForm.controls['totp'].dirty || myForm.controls['totp'].touched)" class="text-red-600">
+          <small *ngIf="myForm.controls['totp'].errors?.['required']">Totp code is required.</small>
+          <small *ngIf="myForm.controls['totp'].errors?.['min'] || myForm.controls['totp'].errors?.['max']">Value is not correct</small>
+        </div>
+        <div class="mt-2">
+          <div class="card-actions justify-end">
+            <button class="btn btn-accent">Login</button>
+          </div>
         </div>
       </form>
     </div>
