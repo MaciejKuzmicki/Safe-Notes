@@ -21,7 +21,7 @@ services:
 
   angular:
     build:
-      context: ./Safe-Notes-Frontend
+      context: ./Frontend
     ports:
       - "4200:80"
 
