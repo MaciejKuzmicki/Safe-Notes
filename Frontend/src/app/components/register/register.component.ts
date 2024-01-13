@@ -5,6 +5,7 @@ import {AuthService} from "../../services/auth.service";
 import {RegisterRequestModel} from "../../types/Register-Request.model";
 import {RegisterResponseModel} from "../../types/Register-Response.model";
 import {error} from "@angular/compiler-cli/src/transformers/util";
+import {PasswordStrengthChecker} from "../../utils/PasswordStrengthChecker";
 
 @Component({
   selector: 'app-register',
@@ -15,6 +16,8 @@ export class RegisterComponent implements OnInit, OnDestroy{
   myForm!: FormGroup;
   errorMessage: string = '';
   private Subscription?: Subscription;
+  private PasswordSubscription?: Subscription;
+  passwordEntropy: number = 0;
   model: RegisterRequestModel = {
     Email: '',
     Password: '',
@@ -29,6 +32,7 @@ export class RegisterComponent implements OnInit, OnDestroy{
 
   ngOnDestroy(): void {
     this.Subscription?.unsubscribe();
+    this.PasswordSubscription?.unsubscribe();
   }
 
   ngOnInit(): void {
@@ -37,6 +41,12 @@ export class RegisterComponent implements OnInit, OnDestroy{
       password: ['', [Validators.required, Validators.minLength(8)]],
       password2: ['', [Validators.required, Validators.minLength(8)]],
     }, {validators: this.passwordMatchValidator});
+
+    this.PasswordSubscription = this.myForm.get('password')?.valueChanges.subscribe(
+      (passwordTyped) => {
+        this.passwordEntropy = PasswordStrengthChecker.calculateEntropy(passwordTyped);
+      }
+    );
   }
 
   onSubmit(): void {
