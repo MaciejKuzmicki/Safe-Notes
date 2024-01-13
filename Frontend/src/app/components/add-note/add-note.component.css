@@ -1,0 +1,37 @@
+.card {
+  background-color: #D9D9D9;
+}
+
+textarea{
+  height: 120px;
+  color: black;
+  border-radius: 20px;
+  background-color: #EBEBEB;
+  width: 100%;
+  padding-left:15px;
+  border-bottom: 2px solid #EF9FBC;
+  resize: none;
+}
+
+.form-control {
+  color: black;
+  border-radius: 20px;
+  background-color: #EBEBEB;
+  width: 100%;
+  padding-left:15px;
+  border-bottom: 2px solid #EF9FBC;
+  resize: none;
+}
+
+.my-input {
+  height: 40px;
+  color: black;
+  border-radius: 20px;
+  background-color: #EBEBEB;
+  width: 100%;
+  padding-left:15px;
+  border-bottom: 2px solid #EF9FBC;
+  resize: none;
+}
+
+

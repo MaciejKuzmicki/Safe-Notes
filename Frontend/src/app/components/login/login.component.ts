@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {LoginRequestModel} from "../../types/Login-Request.model";
 import {Subscription} from "rxjs";
@@ -10,7 +10,7 @@ import {LoginResponseModel} from "../../types/Login-Response.model";
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css']
 })
-export class LoginComponent implements OnInit{
+export class LoginComponent implements OnInit, OnDestroy{
   myForm!: FormGroup;
   model: LoginRequestModel = {
     Email: '',
@@ -25,6 +25,10 @@ export class LoginComponent implements OnInit{
 
   constructor(private formBuilder: FormBuilder, private authService: AuthService) {
 
+  }
+
+  ngOnDestroy(): void {
+    this.subscription?.unsubscribe();
   }
   ngOnInit(): void {
     this.myForm = this.formBuilder.group({

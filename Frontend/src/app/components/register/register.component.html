@@ -14,13 +14,7 @@
         <div class="mt-2">
           <input type="password" id="password" name="password" placeholder="Type your password" formControlName="password">
         </div>
-        <div class="mt-2">
-          <progress *ngIf="passwordEntropy < 28" class="progress progress-error w-80" value="{{ passwordEntropy / 28 * 15 }}" max="60"></progress>
-          <progress *ngIf="passwordEntropy >= 28 && passwordEntropy < 35" class="progress progress-warning w-80" value="{{ 15 + (passwordEntropy - 28) / (35 - 28) * 15 }}" max="60"></progress>
-          <progress *ngIf="passwordEntropy >= 35 && passwordEntropy < 50" class="progress progress-accent w-80" value="{{ 30 + (passwordEntropy - 35) / (50 - 35) * 15 }}" max="60"></progress>
-          <progress *ngIf="passwordEntropy >= 50" class="progress progress-success w-80" value="{{ 45 + (passwordEntropy - 50) / (60 - 50) * 15 }}" max="60"></progress>
-
-        </div>
+        <app-password-strength-bar [passwordEntropy]="passwordEntropy"></app-password-strength-bar>
         <div *ngIf="myForm.controls['password'].invalid && (myForm.controls['password'].dirty || myForm.controls['password'].touched)" class="text-red-600">
           <small *ngIf="myForm.controls['password'].errors?.['required']">Password is required.</small>
           <small *ngIf="myForm.controls['password'].errors?.['minlength']">The password is too short.</small>

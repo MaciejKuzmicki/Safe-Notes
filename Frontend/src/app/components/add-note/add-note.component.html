@@ -1,0 +1,20 @@
+<div class="flex justify-center">
+  <div class="card w-96 bg-base-100  shadow-xl">
+    <div class="card-body">
+      <h1 class="card-title justify-center">Add your note</h1>
+      <textarea>
+
+      </textarea>
+      <div class="form-control">
+        <label class="label cursor-pointer">
+          <span class="label-text">Encrypt</span>
+          <input type="checkbox" [(ngModel)]="this.model.encrypted" class="checkbox" />
+        </label>
+      </div>
+      <div *ngIf="model.encrypted" class="mt-2">
+        <input class="my-input" [(ngModel)]="this.model.password" type="password"/>
+        <app-password-strength-bar [passwordEntropy]="passwordEntropy"></app-password-strength-bar>
+      </div>
+    </div>
+  </div>
+</div>
