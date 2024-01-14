@@ -8,8 +8,9 @@
           <input type="text" id="email" name="email" placeholder="Type your e-mail" formControlName="email">
         </div>
         <div *ngIf="myForm.controls['email'].invalid && (myForm.controls['email'].dirty || myForm.controls['email'].touched)" class="text-red-600">
-          <small *ngIf="myForm.controls['email'].errors?.['required']">Email is required.</small>
-          <small *ngIf="myForm.controls['email'].errors?.['email']">Invalid email format.</small>
+          <small *ngIf="myForm.controls['email'].errors?.['required']">Email is required. </small>
+          <small *ngIf="myForm.controls['email'].errors?.['email']">Invalid email format. </small>
+          <small *ngIf="myForm.controls['email'].errors?.['maxlength']">E-mail is too long. </small>
         </div>
         <div class="mt-2">
           <input type="password" id="password" name="password" placeholder="Type your password" formControlName="password">
@@ -18,6 +19,7 @@
         <div *ngIf="myForm.controls['password'].invalid && (myForm.controls['password'].dirty || myForm.controls['password'].touched)" class="text-red-600">
           <small *ngIf="myForm.controls['password'].errors?.['required']">Password is required.</small>
           <small *ngIf="myForm.controls['password'].errors?.['minlength']">The password is too short.</small>
+          <small *ngIf="myForm.controls['password'].errors?.['maxlength']">The password is too long.</small>
         </div>
         <div class="mt-2">
           <input type="password" id="password2" name="password2" placeholder="Repeat your password" formControlName="password2">
@@ -25,9 +27,10 @@
         <div *ngIf="myForm.controls['password2'].invalid && (myForm.controls['password2'].dirty || myForm.controls['password2'].touched)" class="text-red-600">
           <small *ngIf="myForm.controls['password2'].errors?.['required']">Password is required.</small>
           <small *ngIf="myForm.controls['password2'].errors?.['minlength']">The password is too short.</small>
+          <small *ngIf="myForm.controls['password2'].errors?.['maxlength']">The password is too long.</small>
         </div>
         <div *ngIf="myForm.errors?.['passwordMismatch'] && (myForm.controls['password2'].touched || myForm.controls['password2'].dirty)" class="text-red-600">
-          <small>Passwords are not the same</small>
+          <small>Passwords are not the same.</small>
         </div>
 
         <div class="mt-2">

@@ -37,9 +37,9 @@ export class RegisterComponent implements OnInit, OnDestroy{
 
   ngOnInit(): void {
     this.myForm = this.formBuilder.group({
-      email: ['', [Validators.required, Validators.minLength(1), Validators.email]],
-      password: ['', [Validators.required, Validators.minLength(8)]],
-      password2: ['', [Validators.required, Validators.minLength(8)]],
+      email: ['', [Validators.required, Validators.minLength(1), Validators.email, Validators.maxLength(30)]],
+      password: ['', [Validators.required, Validators.minLength(8), Validators.maxLength(20)]],
+      password2: ['', [Validators.required, Validators.minLength(8), Validators.maxLength(20)]],
     }, {validators: this.passwordMatchValidator});
 
     this.PasswordSubscription = this.myForm.get('password')?.valueChanges.subscribe(

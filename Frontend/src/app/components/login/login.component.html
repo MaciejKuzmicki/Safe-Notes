@@ -8,8 +8,9 @@
           <input type="text" id="email" name="email" formControlName="email" placeholder="Type your e-mail">
         </div>
         <div *ngIf="myForm.controls['email'].invalid && (myForm.controls['email'].dirty || myForm.controls['email'].touched)" class="text-red-600">
-          <small *ngIf="myForm.controls['email'].errors?.['required']">Email is required.</small>
-          <small *ngIf="myForm.controls['email'].errors?.['email']">Invalid email format.</small>
+          <small *ngIf="myForm.controls['email'].errors?.['required']">E-mail is required. </small>
+          <small *ngIf="myForm.controls['email'].errors?.['email']">Invalid e-mail format. </small>
+          <small *ngIf="myForm.controls['email'].errors?.['maxlength']">E-mail is too long. </small>
         </div>
         <div class="mt-2">
           <input type="password" id="password" name="password" formControlName="password" placeholder="Type your password">
@@ -17,6 +18,7 @@
         <div *ngIf="myForm.controls['password'].invalid && (myForm.controls['password'].dirty || myForm.controls['password'].touched)" class="text-red-600">
           <small *ngIf="myForm.controls['password'].errors?.['required']">Password is required.</small>
           <small *ngIf="myForm.controls['password'].errors?.['minlength']">The password is too short.</small>
+          <small *ngIf="myForm.controls['password'].errors?.['maxlength']">The password is too long.</small>
         </div>
         <div class="mt-2">
           <input type="number" id="totp" name="totp" formControlName="totp" placeholder="Type totp code">

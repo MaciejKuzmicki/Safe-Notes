@@ -1,1 +1,5 @@
-<p>notelist works!</p>
+<ul class="flex flex-col gap-4">
+  <li *ngFor="let note of notes">
+    <app-note [note]="note"></app-note>
+  </li>
+</ul>
