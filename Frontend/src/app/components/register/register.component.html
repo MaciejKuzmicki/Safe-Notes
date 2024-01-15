@@ -3,7 +3,7 @@
   <div class="card w-96 bg-base-100  shadow-xl">
     <div class="card-body">
       <h1 class="card-title justify-center">Register</h1>
-      <form *ngIf="response.TOTPSecret.length == 0" [formGroup]="myForm" (ngSubmit)="onSubmit()">
+      <form *ngIf="!totpVisible" [formGroup]="myForm" (ngSubmit)="onSubmit()">
         <div class="mt-2">
           <input type="text" id="email" name="email" placeholder="Type your e-mail" formControlName="email">
         </div>
@@ -45,13 +45,17 @@
           </div>
         </div>
       </form>
-      <div *ngIf="response.TOTPSecret.length > 0" class="mt-2">
+      <div *ngIf="totpVisible" class="mt-2">
         <div role="alert" class="alert alert-info">
           <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" class="stroke-current shrink-0 w-6 h-6"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-          <span>Below there is your secret, add this to your authenticator and do not show to anyone</span>
-          <span>{{response.TOTPSecret}}</span>
+          <span>Below there is your secret, add this to your authenticator and do not show to anyone </span>
+        </div>
+        <div role="alert" class="alert alert-info">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" class="stroke-current shrink-0 w-6 h-6"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+          <span>{{response.totpSecret}} </span>
         </div>
       </div>
+
     </div>
   </div>
 </div>

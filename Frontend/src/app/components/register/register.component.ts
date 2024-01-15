@@ -1,4 +1,4 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
+import {ChangeDetectorRef, Component, OnChanges, OnDestroy, OnInit, SimpleChanges} from '@angular/core';
 import {FormBuilder, FormGroup, ValidationErrors, Validators} from "@angular/forms";
 import {Subscription} from "rxjs";
 import {AuthService} from "../../services/auth.service";
@@ -22,11 +22,10 @@ export class RegisterComponent implements OnInit, OnDestroy{
     Email: '',
     Password: '',
   };
-  response: RegisterResponseModel = {
-    TOTPSecret: '',
-  };
+  response: RegisterResponseModel = {} as RegisterResponseModel;
+  totpVisible: boolean = false;
 
-  constructor(private formBuilder: FormBuilder, private authService: AuthService) {
+  constructor(private formBuilder: FormBuilder, private authService: AuthService, private cdr: ChangeDetectorRef) {
 
   }
 
@@ -49,17 +48,15 @@ export class RegisterComponent implements OnInit, OnDestroy{
     );
   }
 
+
   onSubmit(): void {
     if(this.myForm.valid) {
       this.model.Email = this.myForm.get('email')?.value;
       this.model.Password = this.myForm.get('password')?.value;
-      this.Subscription = this.authService.register(this.model).subscribe({
-        next: (response) => {
-          this.response = response;
-        },
-        error: (error) => this.errorMessage = "Something went wrong...",
-        },
-      )
+      this.Subscription = this.authService.register(this.model).subscribe(
+        (response) => {this.response=response , this.totpVisible = true},
+        (error) => this.errorMessage = "Something went wrong..."
+      );
     }
     else {
       this.errorMessage = "Your data are incorrect";
