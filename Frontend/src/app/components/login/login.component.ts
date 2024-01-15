@@ -19,7 +19,7 @@ export class LoginComponent implements OnInit, OnDestroy{
   }
   subscription?: Subscription;
   response: LoginResponseModel = {
-    Token: '',
+    token: '',
   }
   errorMessage: string = '';
 
@@ -39,6 +39,7 @@ export class LoginComponent implements OnInit, OnDestroy{
   }
 
   onSubmit(): void {
+    this.errorMessage = '';
     if(this.myForm.valid) {
       this.model.Email = this.myForm.get('email')?.value;
       this.model.Password = this.myForm.get('password')?.value;
@@ -47,7 +48,7 @@ export class LoginComponent implements OnInit, OnDestroy{
         next: (response) => {
           this.response = response;
         },
-        error: (error) => this.errorMessage = "Something went wrong",
+        error: (error) => { this.errorMessage = "Unauthorized", console.log(error)}
         },
       )
     }

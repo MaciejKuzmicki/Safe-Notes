@@ -3,8 +3,14 @@ import { CommonModule } from '@angular/common';
 import {RouterModule, Routes} from "@angular/router";
 import {RegisterComponent} from "./components/register/register.component";
 import {LoginComponent} from "./components/login/login.component";
+import {NotelistComponent} from "./components/notelist/notelist.component";
+import {AddNoteComponent} from "./components/add-note/add-note.component";
 
 const routes: Routes = [
+  {
+    path:'',
+    component: NotelistComponent
+  },
   {
     path:'register',
     component: RegisterComponent
@@ -12,6 +18,10 @@ const routes: Routes = [
   {
     path: 'login',
     component: LoginComponent
+  },
+  {
+    path: 'addnote',
+    component: AddNoteComponent
   }
 ];
 

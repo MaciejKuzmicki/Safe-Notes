@@ -13,4 +13,10 @@ input {
   resize: none;
 }
 
+.container {
+  margin-left: -10px;
+  width: 80%; /* Adjust the width as needed */
+  text-align: center; /* Centers the text inside the container */
+
+}
 
