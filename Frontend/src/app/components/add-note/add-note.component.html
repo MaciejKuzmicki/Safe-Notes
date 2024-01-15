@@ -4,7 +4,14 @@
     <div class="card-body">
       <h1 class="card-title justify-center">Add your note</h1>
       <form [formGroup]="myForm">
-        <textarea id="content" name="content" formControlName="content" >
+        <div class="mt-2">
+          <input class="my-input" id="title" name="title" formControlName="title" type="text"/>
+        </div>
+        <div *ngIf="myForm.controls['title'].invalid && (myForm.controls['title'].dirty || myForm.controls['title'].touched)" class="text-red-600">
+          <small *ngIf="myForm.controls['title'].errors?.['required']">Title is required. </small>
+          <small *ngIf="myForm.controls['title'].errors?.['maxlength']">Title is too long. </small>
+        </div>
+        <textarea class="mt-2" id="content" name="content" formControlName="content" >
 
         </textarea>
         <div *ngIf="myForm.controls['content'].invalid && (myForm.controls['content'].dirty || myForm.controls['content'].touched)" class="text-red-600">
@@ -18,6 +25,12 @@
             <span class="label-text">Encrypt</span>
             <input type="checkbox" [(ngModel)]="this.model.encrypted" class="checkbox" />
           </label>
+      </div>
+      <div *ngIf="!model.encrypted" class="form-control">
+        <label class="label cursor-pointer">
+          <span class="label-text">Do you want to make your note public ?</span>
+          <input type="checkbox" [(ngModel)]="this.model.ispublic" class="checkbox" />
+        </label>
       </div>
       <form [formGroup]="myPasswordForm">
         <div *ngIf="model.encrypted" class="mt-2">

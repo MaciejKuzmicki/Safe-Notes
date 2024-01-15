@@ -19,6 +19,8 @@ export class AddNoteComponent implements OnInit, OnDestroy {
     password: '',
     content: '',
     encrypted: false,
+    ispublic: false,
+    title: '',
   }
   passwordEntropy: number = 0;
   passwordSubscription?: Subscription;
@@ -41,6 +43,7 @@ export class AddNoteComponent implements OnInit, OnDestroy {
     }
     else if(this.myForm.valid && this.myPasswordForm.valid) {
       this.model.password = this.myPasswordForm.get('password')?.value;
+      this.model.ispublic = false;
       this.subscription = this.noteService.addNote(this.model).subscribe({
         next: () => {},
         error: (error) => this.errorMessage = "Something went wrong"
@@ -57,6 +60,7 @@ export class AddNoteComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.myForm = this.formBuilder.group({
       content: ['', [Validators.required, Validators.maxLength(500)]],
+      title: ['', [Validators.required, Validators.maxLength(20)]],
     });
     this.myPasswordForm = this.formBuilder.group({
       password: ['', [Validators.required, Validators.minLength(8), Validators.maxLength(20)]],
