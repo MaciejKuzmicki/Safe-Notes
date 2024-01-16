@@ -5,6 +5,7 @@ import {Subscription} from "rxjs";
 import {PasswordStrengthChecker} from "../../utils/PasswordStrengthChecker";
 import {NoteService} from "../../services/note.service";
 import DOMPurify from 'dompurify';
+import {Router} from "@angular/router";
 
 
 @Component({
@@ -26,7 +27,7 @@ export class AddNoteComponent implements OnInit, OnDestroy {
   passwordSubscription?: Subscription;
   subscription?: Subscription;
   errorMessage: string = '';
-  constructor(private formBuilder: FormBuilder, private noteService: NoteService) {
+  constructor(private formBuilder: FormBuilder, private noteService: NoteService, private router: Router) {
   }
 
 
@@ -35,9 +36,12 @@ export class AddNoteComponent implements OnInit, OnDestroy {
       ALLOWED_TAGS: ['b', 'i', 'em', 'strong', 'a', 'img', 'h1', 'h2', 'h3', 'h4', 'h5'],
       ALLOWED_ATTR: ['href', 'src', 'alt']
     });
+    this.model.title = this.myForm.get('title')?.value;
     if(this.myForm.valid && !this.model.encrypted) {
       this.subscription = this.noteService.addNote(this.model).subscribe({
-        next: () => {},
+        next: () => {
+          this.router.navigateByUrl('/');
+        },
         error: (error) => this.errorMessage = "Something went wrong"
       })
     }

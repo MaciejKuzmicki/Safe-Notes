@@ -5,6 +5,7 @@ import {RegisterComponent} from "./components/register/register.component";
 import {LoginComponent} from "./components/login/login.component";
 import {NotelistComponent} from "./components/notelist/notelist.component";
 import {AddNoteComponent} from "./components/add-note/add-note.component";
+import {MynotesComponent} from "./components/mynotes/mynotes.component";
 
 const routes: Routes = [
   {
@@ -22,6 +23,10 @@ const routes: Routes = [
   {
     path: 'addnote',
     component: AddNoteComponent
+  },
+  {
+    path: 'mynotes',
+    component: MynotesComponent
   }
 ];
 

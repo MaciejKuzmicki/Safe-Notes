@@ -45,7 +45,7 @@ export class AuthService {
   getState(): Observable<AuthState> {
     return this.stateSubject.asObservable();
   }
-
+  state = signal(this.stateSubject);
   private updateState(newState: Partial<AuthState>): void {
     const currentState = this.stateSubject.value;
     const updatedState = { ...currentState, ...newState };

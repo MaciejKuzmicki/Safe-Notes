@@ -8,7 +8,6 @@ public class NoteCreateDto
     public string title { get; set; }
     [Required]
     public string content { get; set; }
-    [Required]
     public string password { get; set; }
     [Required]
     public bool encrypted { get; set; }

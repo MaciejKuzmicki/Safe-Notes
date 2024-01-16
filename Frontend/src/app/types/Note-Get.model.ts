@@ -1,4 +1,5 @@
 export interface NoteGetModel {
-  encrypted: boolean;
   content: string;
+  title: string;
+  encrypted: boolean;
 }

@@ -34,10 +34,29 @@ namespace Safe_Notes_Api.Controllers
             else return NoContent();
         }
 
+        [HttpGet("mynotes")]
+        [Authorize]
+        public async Task<ActionResult> GetMyNotes([FromHeader] string UserId)
+        {
+            var response = await _noteService.GetMyNotes(UserId);
+            if (response.Success) return Ok(response.Data);
+            else if (response.StatusCode == HttpStatusCode.NotFound)
+            {
+                return NotFound(response.Message);
+            }
+            else return NoContent();        
+        }
+
         [HttpGet]
         public async Task<ActionResult> GetNotes()
         {
-            return NoContent();
+            var response = await _noteService.GetNotes();
+            if (response.Success) return Ok(response.Data);
+            else if (response.StatusCode == HttpStatusCode.NotFound)
+            {
+                return NotFound(response.Message);
+            }
+            else return NoContent();
         }
 
         [HttpGet("{id}")]
@@ -45,6 +64,8 @@ namespace Safe_Notes_Api.Controllers
         {
             return NoContent();
         }
+        
+        
     }
 }
 

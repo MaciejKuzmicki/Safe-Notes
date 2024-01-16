@@ -7,4 +7,9 @@ public interface INoteService
 {
     Task<ServiceResponse<NoteCreateDto>> AddNote(NoteCreateDto note, string UserId);
 
+    Task<ServiceResponse<NoteGetDto[]>> GetNotes();
+    
+    Task<ServiceResponse<NoteGetDto[]>> GetMyNotes(string UserId);
+
+
 }

@@ -4,6 +4,7 @@ import {LoginRequestModel} from "../../types/Login-Request.model";
 import {Subscription} from "rxjs";
 import {AuthService} from "../../services/auth.service";
 import {LoginResponseModel} from "../../types/Login-Response.model";
+import {Route, Router} from "@angular/router";
 
 @Component({
   selector: 'app-login',
@@ -23,7 +24,7 @@ export class LoginComponent implements OnInit, OnDestroy{
   }
   errorMessage: string = '';
 
-  constructor(private formBuilder: FormBuilder, private authService: AuthService) {
+  constructor(private formBuilder: FormBuilder, private authService: AuthService, private router: Router) {
 
   }
 
@@ -47,6 +48,7 @@ export class LoginComponent implements OnInit, OnDestroy{
       this.subscription = this.authService.login(this.model).subscribe({
         next: (response) => {
           this.response = response;
+          this.router.navigateByUrl('/');
         },
         error: (error) => { this.errorMessage = "Unauthorized", console.log(error)}
         },
