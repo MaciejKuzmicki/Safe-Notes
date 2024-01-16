@@ -21,6 +21,15 @@ export class MynotesComponent {
     })
   }
 
+  changeNote(decryptedNote?: NoteGetModel): void {
+    if(decryptedNote) {
+      const existingNote = this.notes.find(note => note.noteId === decryptedNote.noteId);
+      if (existingNote) {
+        existingNote.content = decryptedNote.content;
+      }
+    }
+  }
+
   ngOnDestroy(): void {
     this.subscription?.unsubscribe();
   }

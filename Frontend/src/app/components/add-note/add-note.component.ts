@@ -49,7 +49,10 @@ export class AddNoteComponent implements OnInit, OnDestroy {
       this.model.password = this.myPasswordForm.get('password')?.value;
       this.model.ispublic = false;
       this.subscription = this.noteService.addNote(this.model).subscribe({
-        next: () => {},
+        next: () => {
+          this.router.navigateByUrl('/');
+
+        },
         error: (error) => this.errorMessage = "Something went wrong"
       })
     }

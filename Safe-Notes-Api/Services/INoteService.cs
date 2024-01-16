@@ -10,6 +10,9 @@ public interface INoteService
     Task<ServiceResponse<NoteGetDto[]>> GetNotes();
     
     Task<ServiceResponse<NoteGetDto[]>> GetMyNotes(string UserId);
+    
+    Task<ServiceResponse<NoteGetDto>> GetNote(string UserId, string NoteId, NoteEncryptDto noteEncryptDto);
+
 
 
 }

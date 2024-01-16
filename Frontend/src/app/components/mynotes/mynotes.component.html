@@ -1,7 +1,7 @@
 <div class="content-center">
   <ul class="flex flex-wrap">
     <li class="p-1 w-1/4 note-width m-2" *ngFor="let note of notes">
-      <app-note [note]="note"></app-note>
+      <app-note (contentAdded)="changeNote($event)" [note]="note"></app-note>
     </li>
   </ul>
 </div>

@@ -59,10 +59,21 @@ namespace Safe_Notes_Api.Controllers
             else return NoContent();
         }
 
-        [HttpGet("{id}")]
-        public async Task<ActionResult> GetNote([FromRoute] int id)
+        [HttpPost("{noteId}")]
+        [Authorize]
+        public async Task<ActionResult> GetNote([FromRoute] string noteId, [FromHeader] string userId, [FromBody] NoteEncryptDto note )
         {
-            return NoContent();
+            var response = await _noteService.GetNote(userId, noteId, note);
+            if (response.Success) return Ok(response.Data);
+            else if (response.StatusCode == HttpStatusCode.NotFound)
+            {
+                return NotFound(response.Message);
+            }
+            else if (response.StatusCode == HttpStatusCode.Unauthorized)
+            {
+                return Unauthorized(response.Message);
+            }
+            else return NoContent();
         }
         
         

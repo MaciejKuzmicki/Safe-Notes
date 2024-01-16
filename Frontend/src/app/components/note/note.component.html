@@ -1,7 +1,28 @@
 <div class="card py-2 bg-base-300 w-[350px] shadow-xl">
-    <h1 style="text-align: center; font-size: 20px;">Title: {{note.title}}</h1>
+  <h1 style="text-align: center; font-size: 20px;">Title: {{note.title}}</h1>
+  <div class="p-2" style="text-align: center;" [innerHTML]="note.content"></div>
 
-     <div class="p-2" style="text-align: center;" [innerHTML]="note.content"></div>
+  <form [formGroup]="myPasswordForm">
+    <div *ngIf="note.encrypted" class="mt-2">
+      <input class="my-input" id="passowrd" name="password" formControlName="password" type="password"/>
+      <div *ngIf="myPasswordForm.controls['password'].invalid && (myPasswordForm.controls['password'].dirty || myPasswordForm.controls['password'].touched)" class="text-red-600">
+        <small *ngIf="myPasswordForm.controls['password'].errors?.['required']">Password is required.</small>
+        <small *ngIf="myPasswordForm.controls['password'].errors?.['minlength']">The password is too short.</small>
+        <small *ngIf="myPasswordForm.controls['password'].errors?.['maxlength']">The password is too long.</small>
+      </div>
+    </div>
+    <div *ngIf="note.encrypted" class="mt-2">
+      <div class="card-actions justify-end">
+        <button type="submit" (click)="onFormSubmit()" class="btn btn-accent">Add</button>
+      </div>
+    </div>
+    <div class="mt-2" *ngIf="errorMessage.length>0">
+      <div role="alert" class="alert alert-error">
+        <svg xmlns="http://www.w3.org/2000/svg" class="stroke-current shrink-0 h-6 w-6" fill="none" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+        <span>{{ errorMessage }}</span>
+      </div>
+    </div>
+  </form>
 
   <br/>
 

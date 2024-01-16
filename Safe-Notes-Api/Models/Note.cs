@@ -16,6 +16,9 @@ public class Note
     public byte[] PasswordHash { get; set; }
     public byte[] PasswordSalt { get; set; }
 
+    public string key { get; set; }
+    public string iv { get; set; }
+
     public bool isEncrypted { get; set; } = false;
 
     public bool isPublic { get; set; } = false;
