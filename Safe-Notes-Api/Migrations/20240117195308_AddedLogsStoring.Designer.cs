@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using Safe_Notes_Api.Models;
@@ -11,9 +12,10 @@ using Safe_Notes_Api.Models;
 namespace Safe_Notes_Api.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    partial class DatabaseContextModelSnapshot : ModelSnapshot
+    [Migration("20240117195308_AddedLogsStoring")]
+    partial class AddedLogsStoring
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -42,8 +44,6 @@ namespace Safe_Notes_Api.Migrations
                         .HasColumnType("uuid");
 
                     b.HasKey("LoginAttemptId");
-
-                    b.HasIndex("UserId");
 
                     b.ToTable("LoginAttempts");
                 });
@@ -121,15 +121,6 @@ namespace Safe_Notes_Api.Migrations
                     b.ToTable("Users");
                 });
 
-            modelBuilder.Entity("Safe_Notes_Api.Models.LoginAttempt", b =>
-                {
-                    b.HasOne("Safe_Notes_Api.Models.User", null)
-                        .WithMany("LoginAttempts")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
             modelBuilder.Entity("Safe_Notes_Api.Models.Note", b =>
                 {
                     b.HasOne("Safe_Notes_Api.Models.User", "User")
@@ -143,8 +134,6 @@ namespace Safe_Notes_Api.Migrations
 
             modelBuilder.Entity("Safe_Notes_Api.Models.User", b =>
                 {
-                    b.Navigation("LoginAttempts");
-
                     b.Navigation("Notes");
                 });
 #pragma warning restore 612, 618

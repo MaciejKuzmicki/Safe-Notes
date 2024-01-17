@@ -17,4 +17,6 @@ public class User
     
     public ICollection<Note> Notes { get; set; }
     
+    public ICollection<LoginAttempt> LoginAttempts { get; set; }
+    
 }

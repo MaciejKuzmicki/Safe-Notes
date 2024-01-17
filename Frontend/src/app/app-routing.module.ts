@@ -6,6 +6,7 @@ import {LoginComponent} from "./components/login/login.component";
 import {NotelistComponent} from "./components/notelist/notelist.component";
 import {AddNoteComponent} from "./components/add-note/add-note.component";
 import {MynotesComponent} from "./components/mynotes/mynotes.component";
+import {LoginattemptsComponent} from "./components/loginattempts/loginattempts.component";
 
 const routes: Routes = [
   {
@@ -27,6 +28,10 @@ const routes: Routes = [
   {
     path: 'mynotes',
     component: MynotesComponent
+  },
+  {
+    path: 'logs',
+    component: LoginattemptsComponent
   }
 ];
 

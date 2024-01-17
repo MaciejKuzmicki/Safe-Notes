@@ -20,7 +20,7 @@ public class AuthService : IAuthService
         _jwtSettings = jwtSettings;
     }
 
-    public async Task<ServiceResponse<LoginResponseDto>> Login(LoginRequestDto user)
+    public async Task<ServiceResponse<LoginResponseDto>> Login(LoginRequestDto user, string ip)
     {
         User currentUser = _context.Users.FirstOrDefault(x => x.Email == user.Email);
         if (currentUser == null)
@@ -34,6 +34,14 @@ public class AuthService : IAuthService
             };
         }
 
+        if (currentUser.LoginAttempts == null) currentUser.LoginAttempts = new List<LoginAttempt>();
+
+        LoginAttempt loginAttempt = new LoginAttempt();
+        loginAttempt.UserId = currentUser.UserId;
+        loginAttempt.Time = DateTime.UtcNow;
+        loginAttempt.IpAddress = ip;
+        
+
         using (var hmac = new HMACSHA512(currentUser.PasswordSalt))
         {
             var givenHash = hmac.ComputeHash(System.Text.Encoding.UTF8.GetBytes(user.Password));
@@ -41,6 +49,9 @@ public class AuthService : IAuthService
             {
                 if (givenHash[i] != currentUser.PasswordHash[i])
                 {
+                    loginAttempt.Success = false;
+                    _context.LoginAttempts.Add(loginAttempt);
+                    await _context.SaveChangesAsync();
                     return new ServiceResponse<LoginResponseDto>()
                     {
                         Success = false,
@@ -55,6 +66,9 @@ public class AuthService : IAuthService
         var totp = new Totp(currentUser.TOTPSecret);
         if (!totp.VerifyTotp(user.TotpCode, out long timeStepMatched, new VerificationWindow(2, 2)))
         {
+            loginAttempt.Success = false;
+            _context.LoginAttempts.Add(loginAttempt);
+            await _context.SaveChangesAsync();
             return new ServiceResponse<LoginResponseDto>()
             {
                 Success = false,
@@ -81,6 +95,10 @@ public class AuthService : IAuthService
         {
             Token = tokenHandler.WriteToken(token),
         };
+        loginAttempt.Success = true;
+        _context.LoginAttempts.Add(loginAttempt);
+        await _context.SaveChangesAsync();
+
         return new ServiceResponse<LoginResponseDto>()
         {
             Success = true,
@@ -113,6 +131,7 @@ public class AuthService : IAuthService
                 PasswordHash = hmac.ComputeHash(System.Text.Encoding.UTF8.GetBytes(user.Password)),
                 PasswordSalt = hmac.Key,
                 Notes = new List<Note>(),
+                LoginAttempts = new List<LoginAttempt>(),
                 TOTPSecret = KeyGeneration.GenerateRandomKey(20),
             };
         }

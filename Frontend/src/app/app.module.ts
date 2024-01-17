@@ -14,6 +14,7 @@ import { AddNoteComponent } from './components/add-note/add-note.component';
 import { NoteComponent } from './components/note/note.component';
 import { PasswordStrengthBarComponent } from './components/password-strength-bar/password-strength-bar.component';
 import { MynotesComponent } from './components/mynotes/mynotes.component';
+import { LoginattemptsComponent } from './components/loginattempts/loginattempts.component';
 
 @NgModule({
   declarations: [
@@ -26,6 +27,7 @@ import { MynotesComponent } from './components/mynotes/mynotes.component';
     NoteComponent,
     PasswordStrengthBarComponent,
     MynotesComponent,
+    LoginattemptsComponent,
   ],
     imports: [
         BrowserModule,

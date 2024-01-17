@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {NoteGetModel} from "../../types/Note-Get.model";
 import {Subscription} from "rxjs";
 import {NoteService} from "../../services/note.service";
@@ -8,7 +8,7 @@ import {NoteService} from "../../services/note.service";
   templateUrl: './mynotes.component.html',
   styleUrls: ['./mynotes.component.css']
 })
-export class MynotesComponent {
+export class MynotesComponent implements OnInit, OnDestroy{
   notes: NoteGetModel [] = [];
   subscription?: Subscription;
 

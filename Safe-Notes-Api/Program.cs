@@ -17,6 +17,8 @@ builder.Services.AddDbContext<DatabaseContext>(o =>
     o.UseNpgsql(builder.Configuration.GetConnectionString("Database")));
 builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<INoteService, NoteService>();
+builder.Services.AddScoped<ILoginAttemptsService, LoginAttemptsService>();
+
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("CorsPolicy", builder =>
