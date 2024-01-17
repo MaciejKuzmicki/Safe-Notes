@@ -16,7 +16,7 @@ export class LoginattemptsService {
     const headers = new HttpHeaders({
       'Authorization': `Bearer ${this.authService.state().value.jwt}`
     }).set('UserId', this.authService.state().value.userId);
-    return this.http.get<LoginAttemptResponse []>('https://localhost:44313/LoginAttempts', {headers}).pipe(
+    return this.http.get<LoginAttemptResponse []>('http://localhost:8000/LoginAttempts', {headers}).pipe(
       finalize(
         () => {}
       ),

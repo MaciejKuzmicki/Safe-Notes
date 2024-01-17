@@ -21,7 +21,7 @@ export class AuthService {
         'Content-Type': 'application/json'
       })
     };
-    return this.http.post<RegisterResponseModel>('https://localhost:44313/Auth/register', model,httpOptions).pipe(
+    return this.http.post<RegisterResponseModel>('http://localhost:8000/Auth/register', model,httpOptions).pipe(
       finalize(
         () => {}
       ),
@@ -57,7 +57,7 @@ export class AuthService {
         'Content-Type': 'application/json'
       })
     };
-    return this.http.post<LoginResponseModel>('https://localhost:44313/Auth/login', model, httpOptions).pipe(
+    return this.http.post<LoginResponseModel>('http://localhost:8000/Auth/login', model, httpOptions).pipe(
       finalize(
         () => {}
       ),

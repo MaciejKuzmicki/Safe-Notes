@@ -55,7 +55,12 @@ export class RegisterComponent implements OnInit, OnDestroy{
       this.model.Password = this.myForm.get('password')?.value;
       this.Subscription = this.authService.register(this.model).subscribe(
         (response) => {this.response=response , this.totpVisible = true},
-        (error) => this.errorMessage = "Something went wrong..."
+        (error) => {
+          if(error.status == '409') {
+            this.errorMessage = "E-mail is taken..."
+          }
+          else this.errorMessage = "Something went wrong..."
+        }
       );
     }
     else {

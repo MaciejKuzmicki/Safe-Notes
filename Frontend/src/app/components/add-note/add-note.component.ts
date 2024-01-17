@@ -6,6 +6,8 @@ import {PasswordStrengthChecker} from "../../utils/PasswordStrengthChecker";
 import {NoteService} from "../../services/note.service";
 import DOMPurify from 'dompurify';
 import {Router} from "@angular/router";
+import * as marked from 'marked';
+
 
 
 @Component({
@@ -32,7 +34,9 @@ export class AddNoteComponent implements OnInit, OnDestroy {
 
 
   onFormSubmit(): void {
-    this.model.content = DOMPurify.sanitize(this.myForm.get('content')?.value, {
+    const md = this.myForm.get('content')?.value;
+    const md2 = marked.parse(md).toString();
+    this.model.content = DOMPurify.sanitize(md2, {
       ALLOWED_TAGS: ['b', 'i', 'em', 'strong', 'a', 'img', 'h1', 'h2', 'h3', 'h4', 'h5'],
       ALLOWED_ATTR: ['href', 'src', 'alt']
     });

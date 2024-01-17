@@ -18,7 +18,7 @@ export class NoteService {
     const headers = new HttpHeaders({
       'Authorization': `Bearer ${this.authService.state().value.jwt}`
     }).set('UserId', this.authService.state().value.userId);
-    return this.http.post<void>('https://localhost:44313/Note', model, {headers}).pipe(
+    return this.http.post<void>('http://localhost:8000/Note', model, {headers}).pipe(
       finalize(
         () => {}
       ),
@@ -33,7 +33,7 @@ export class NoteService {
     const headers = new HttpHeaders({
       'Authorization': `Bearer ${this.authService.state().value.jwt}`
     }).set('UserId', this.authService.state().value.userId);
-    return this.http.get<NoteGetModel []>('https://localhost:44313/Note/mynotes', {headers}).pipe(
+    return this.http.get<NoteGetModel []>('http://localhost:8000/Note/mynotes', {headers}).pipe(
       finalize(
         () => {}
       ),
@@ -45,7 +45,7 @@ export class NoteService {
   }
 
   getNotes(): Observable<NoteGetModel []> {
-    return this.http.get<NoteGetModel []>('https://localhost:44313/Note').pipe(
+    return this.http.get<NoteGetModel []>('http://localhost:8000/Note').pipe(
       finalize(
         () => {}
       ),
@@ -60,7 +60,7 @@ export class NoteService {
     const headers = new HttpHeaders({
       'Authorization': `Bearer ${this.authService.state().value.jwt}`
     }).set('UserId', this.authService.state().value.userId);
-    return this.http.post<NoteGetModel>(`https://localhost:44313/Note/${noteId}`, model, {headers}).pipe(
+    return this.http.post<NoteGetModel>(`http://localhost:8000/Note/${noteId}`, model, {headers}).pipe(
       finalize(
         () => {}
       ),
