@@ -18,6 +18,7 @@ namespace Safe_Notes_Api.Controllers
         }
 
         [HttpGet]
+        [Authorize]
         public async Task<ActionResult> GetLoginAttempts([FromHeader] string UserId)
         {
             var response = await _loginAttemptsService.GetLoginAttempts(UserId);
