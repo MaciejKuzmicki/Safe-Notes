@@ -35,28 +35,24 @@ public class NoteService : INoteService
         if (currentUser.Notes == null) currentUser.Notes = new List<Note>();
         if (note.encrypted)
         {
-            string key, iv;
+            string iv;
             using (Aes aes = Aes.Create())
             {
-                aes.GenerateKey();
                 aes.GenerateIV();
-                key = Convert.ToBase64String(aes.Key);
                 iv = Convert.ToBase64String(aes.IV);
             }
-            AesEncryption aesEncryption = new AesEncryption(key, iv);
-            
             using (var hmac = new HMACSHA512())
             {
+                byte[] key = AesEncryption.CreateAesKeyFromPassword(note.password, hmac.Key);
                 newNote = new Note()
                 {
-                    content = aesEncryption.Encrypt(note.content),
+                    content = AesEncryption.Encrypt(note.content, Convert.ToBase64String(key), iv),
                     PasswordHash = hmac.ComputeHash(System.Text.Encoding.UTF8.GetBytes(note.password)),
                     PasswordSalt = hmac.Key,
                     isEncrypted = note.encrypted,
                     isPublic = note.ispublic,
                     title = note.title,
                     UserId = currentUser.UserId,
-                    key = key,
                     iv=iv,
                 };
             }
@@ -73,7 +69,6 @@ public class NoteService : INoteService
                 title = note.title,
                 UserId = currentUser.UserId,
                 User = currentUser,
-                key = "",
                 iv="",
             };
         }
@@ -222,12 +217,11 @@ public class NoteService : INoteService
                 }
             }
         }
-
-        AesEncryption aes = new AesEncryption(note.key, note.iv);
+        byte[] keyToDecrypt = AesEncryption.CreateAesKeyFromPassword(noteEncryptDto.password, note.PasswordSalt);
 
         NoteGetDto noteToReturn = new NoteGetDto()
         {
-            content = aes.Decrypt(note.content),
+            content = AesEncryption.Decrypt(note.content, Convert.ToBase64String(keyToDecrypt) ,note.iv),
             title = note.title,
             encrypted = false,
             noteId = note.NoteId.ToString(),

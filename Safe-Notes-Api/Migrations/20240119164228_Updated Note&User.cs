@@ -4,20 +4,17 @@
 
 namespace Safe_Notes_Api.Migrations
 {
-    public partial class @new : Migration
+    public partial class UpdatedNoteUser : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.AddColumn<string>(
-                name: "iv",
-                table: "Notes",
-                type: "text",
-                nullable: false,
-                defaultValue: "");
+            migrationBuilder.DropColumn(
+                name: "key",
+                table: "Notes");
 
             migrationBuilder.AddColumn<string>(
-                name: "key",
-                table: "Notes",
+                name: "Iv",
+                table: "Users",
                 type: "text",
                 nullable: false,
                 defaultValue: "");
@@ -26,12 +23,15 @@ namespace Safe_Notes_Api.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropColumn(
-                name: "iv",
-                table: "Notes");
+                name: "Iv",
+                table: "Users");
 
-            migrationBuilder.DropColumn(
+            migrationBuilder.AddColumn<string>(
                 name: "key",
-                table: "Notes");
+                table: "Notes",
+                type: "text",
+                nullable: false,
+                defaultValue: "");
         }
     }
 }

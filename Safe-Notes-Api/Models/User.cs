@@ -13,7 +13,9 @@ public class User
     [Required]
     public byte[] PasswordSalt { get; set; }
     [Required]
-    public byte[] TOTPSecret { get; set; }
+    public byte [] TOTPSecret { get; set; }
+    [Required]
+    public string Iv { get; set; }
     
     public ICollection<Note> Notes { get; set; }
     

@@ -5,16 +5,9 @@ namespace Safe_Notes_Api.Utils;
 
 public class AesEncryption
 {
-    private readonly string key;
-    private readonly string iv;
+   
 
-    public AesEncryption(string key, string iv)
-    {
-        this.key = key;
-        this.iv = iv;
-    }
-
-    public string Encrypt(string plainText)
+    public static string Encrypt(string plainText, string key, string iv)
     {
         using (Aes aesAlg = Aes.Create())
         {
@@ -37,7 +30,7 @@ public class AesEncryption
         }
     }
 
-    public string Decrypt(string cipherText)
+    public static string Decrypt(string cipherText, string key, string iv)
     {
         using (Aes aesAlg = Aes.Create())
         {
@@ -57,6 +50,16 @@ public class AesEncryption
                     }
                 }
             }
+        }
+    }
+    
+    public static byte[] CreateAesKeyFromPassword(string password, byte[] salt)
+    {
+        int iterations = 10000; 
+
+        using (var rfc2898DeriveBytes = new Rfc2898DeriveBytes(password, salt, iterations))
+        {
+            return rfc2898DeriveBytes.GetBytes(32); 
         }
     }
 }

@@ -12,8 +12,8 @@ using Safe_Notes_Api.Models;
 namespace Safe_Notes_Api.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    [Migration("20240115220203_noteupdated")]
-    partial class noteupdated
+    [Migration("20240119164228_Updated Note&User")]
+    partial class UpdatedNoteUser
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -23,6 +23,32 @@ namespace Safe_Notes_Api.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
             NpgsqlModelBuilderExtensions.UseSerialColumns(modelBuilder);
+
+            modelBuilder.Entity("Safe_Notes_Api.Models.LoginAttempt", b =>
+                {
+                    b.Property<Guid>("LoginAttemptId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("IpAddress")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<bool>("Success")
+                        .HasColumnType("boolean");
+
+                    b.Property<DateTime>("Time")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uuid");
+
+                    b.HasKey("LoginAttemptId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("LoginAttempts");
+                });
 
             modelBuilder.Entity("Safe_Notes_Api.Models.Note", b =>
                 {
@@ -51,6 +77,10 @@ namespace Safe_Notes_Api.Migrations
                     b.Property<bool>("isPublic")
                         .HasColumnType("boolean");
 
+                    b.Property<string>("iv")
+                        .IsRequired()
+                        .HasColumnType("text");
+
                     b.Property<string>("title")
                         .IsRequired()
                         .HasColumnType("text");
@@ -72,6 +102,10 @@ namespace Safe_Notes_Api.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
+                    b.Property<string>("Iv")
+                        .IsRequired()
+                        .HasColumnType("text");
+
                     b.Property<byte[]>("PasswordHash")
                         .IsRequired()
                         .HasColumnType("bytea");
@@ -89,6 +123,15 @@ namespace Safe_Notes_Api.Migrations
                     b.ToTable("Users");
                 });
 
+            modelBuilder.Entity("Safe_Notes_Api.Models.LoginAttempt", b =>
+                {
+                    b.HasOne("Safe_Notes_Api.Models.User", null)
+                        .WithMany("LoginAttempts")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("Safe_Notes_Api.Models.Note", b =>
                 {
                     b.HasOne("Safe_Notes_Api.Models.User", "User")
@@ -102,6 +145,8 @@ namespace Safe_Notes_Api.Migrations
 
             modelBuilder.Entity("Safe_Notes_Api.Models.User", b =>
                 {
+                    b.Navigation("LoginAttempts");
+
                     b.Navigation("Notes");
                 });
 #pragma warning restore 612, 618

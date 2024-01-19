@@ -79,10 +79,6 @@ namespace Safe_Notes_Api.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<string>("key")
-                        .IsRequired()
-                        .HasColumnType("text");
-
                     b.Property<string>("title")
                         .IsRequired()
                         .HasColumnType("text");
@@ -101,6 +97,10 @@ namespace Safe_Notes_Api.Migrations
                         .HasColumnType("uuid");
 
                     b.Property<string>("Email")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("Iv")
                         .IsRequired()
                         .HasColumnType("text");
 

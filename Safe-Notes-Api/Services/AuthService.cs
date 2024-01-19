@@ -7,6 +7,7 @@ using Microsoft.IdentityModel.Tokens;
 using OtpNet;
 using Safe_Notes_Api.Dto;
 using Safe_Notes_Api.Models;
+using Safe_Notes_Api.Utils;
 
 namespace Safe_Notes_Api.Services;
 
@@ -62,8 +63,12 @@ public class AuthService : IAuthService
                 }
             }
         }
-        
-        var totp = new Totp(currentUser.TOTPSecret);
+
+        byte[] keyToDecrypt = AesEncryption.CreateAesKeyFromPassword(user.Password, currentUser.PasswordSalt);
+        string decryptedTOTP = AesEncryption.Decrypt(Convert.ToBase64String(currentUser.TOTPSecret), Convert.ToBase64String(keyToDecrypt), currentUser.Iv);
+        byte[] totpToConvert = Convert.FromBase64String(decryptedTOTP);
+
+        var totp = new Totp(totpToConvert);
         if (!totp.VerifyTotp(user.TotpCode, out long timeStepMatched, new VerificationWindow(2, 2)))
         {
             loginAttempt.Success = false;
@@ -120,9 +125,14 @@ public class AuthService : IAuthService
                 Data = null,
             };
         }
-
+        string iv;
+        using (Aes aes = Aes.Create())
+        {
+            aes.GenerateIV();
+            iv = Convert.ToBase64String(aes.IV);
+        }
         User newUser;
-
+        
         using (var hmac = new HMACSHA512())
         {
             newUser = new User()
@@ -133,6 +143,7 @@ public class AuthService : IAuthService
                 Notes = new List<Note>(),
                 LoginAttempts = new List<LoginAttempt>(),
                 TOTPSecret = KeyGeneration.GenerateRandomKey(20),
+                Iv = iv,
             };
         }
 
@@ -140,6 +151,11 @@ public class AuthService : IAuthService
         {
             TOTPSecret = Base32Encoding.ToString(newUser.TOTPSecret),
         };
+        
+
+        byte[] key = AesEncryption.CreateAesKeyFromPassword(user.Password, newUser.PasswordSalt);
+        string totpSecretBase64 = Convert.ToBase64String(newUser.TOTPSecret);
+        newUser.TOTPSecret = Convert.FromBase64String(AesEncryption.Encrypt(totpSecretBase64, Convert.ToBase64String(key), newUser.Iv));
 
         try
         {
