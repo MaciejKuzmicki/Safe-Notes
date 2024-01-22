@@ -22,12 +22,13 @@ builder.Services.AddScoped<ILoginAttemptsService, LoginAttemptsService>();
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("CorsPolicy", builder =>
-    {
-        builder.WithOrigins("https://localhost") 
-            .AllowAnyMethod()
-            .AllowAnyHeader()
-            .AllowCredentials();
-    });
+{
+    builder.WithOrigins("https://localhost", "http://localhost:4200") 
+           .AllowAnyMethod()
+           .AllowAnyHeader()
+           .AllowCredentials();
+});
+
 });
 var jwtSettings = new JwtSettings();
 builder.Configuration.Bind(nameof(JwtSettings), jwtSettings);

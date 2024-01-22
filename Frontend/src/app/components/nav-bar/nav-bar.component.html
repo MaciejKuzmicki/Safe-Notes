@@ -2,7 +2,7 @@
   <div class="flex-1">
     <a routerLink="/" class="btn btn-ghost text-xl">Safe Notes</a>
   </div>
-  <div *ngIf="!isLoggedIn" class="flex-none">
+  <div *ngIf="user === undefined" class="flex-none">
     <a routerLink="/login">
       <button type="button" class="btn mr-1">Login</button>
     </a>
@@ -10,7 +10,7 @@
       <button type="button" class="btn ml-1">Register</button>
     </a>
   </div>
-  <div *ngIf="isLoggedIn" class="flex-none">
+  <div *ngIf="user !== undefined" class="flex-none">
     <a routerLink="/addnote">
       <button type="button" class="btn mr-1">Add note</button>
     </a>

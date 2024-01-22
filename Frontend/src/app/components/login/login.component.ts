@@ -5,6 +5,7 @@ import {Subscription} from "rxjs";
 import {AuthService} from "../../services/auth.service";
 import {LoginResponseModel} from "../../types/Login-Response.model";
 import {Route, Router} from "@angular/router";
+import {CookieService} from "ngx-cookie-service";
 
 @Component({
   selector: 'app-login',
@@ -24,7 +25,7 @@ export class LoginComponent implements OnInit, OnDestroy{
   }
   errorMessage: string = '';
 
-  constructor(private formBuilder: FormBuilder, private authService: AuthService, private router: Router) {
+  constructor(private formBuilder: FormBuilder, private authService: AuthService, private router: Router, private cookie: CookieService) {
 
   }
 
@@ -51,7 +52,16 @@ export class LoginComponent implements OnInit, OnDestroy{
       this.model.TotpCode = this.myForm.get('totp')?.value;
       this.subscription = this.authService.login(this.model).subscribe({
         next: (response) => {
+          const tokenParts = response.token.split('.');
+          const encodedPayload = tokenParts[1];
+          const decodedPayload = atob(encodedPayload.replace(/-/g, '+').replace(/_/g, '/'));
+          const payload = JSON.parse(decodedPayload);
           this.response = response;
+          this.authService.setUser({
+            email: payload.email,
+            userId: payload.nameid,
+          });
+          this.cookie.set('Authorization', `Bearer ${response.token}`, undefined, '/', undefined, true, 'Strict');
           this.router.navigateByUrl('/');
         },
         error: (error) => {

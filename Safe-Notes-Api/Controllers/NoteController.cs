@@ -18,6 +18,7 @@ namespace Safe_Notes_Api.Controllers
         }
 
         [HttpPost]
+        [Authorize]
         public async Task<ActionResult> AddNote([FromBody] NoteCreateDto note, [FromHeader] string UserId)
         {
             var response = await _noteService.AddNote(note, UserId);
@@ -59,6 +60,7 @@ namespace Safe_Notes_Api.Controllers
         }
 
         [HttpPost("{noteId}")]
+        [Authorize]
         public async Task<ActionResult> GetNote([FromRoute] string noteId, [FromHeader] string userId, [FromBody] NoteEncryptDto note )
         {
             var response = await _noteService.GetNote(userId, noteId, note);

@@ -5,6 +5,8 @@ import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {RegisterRequestModel} from "../types/Register-Request.model";
 import {LoginRequestModel} from "../types/Login-Request.model";
 import {LoginResponseModel} from "../types/Login-Response.model";
+import {User} from "../types/User";
+import {CookieService} from "ngx-cookie-service";
 
 
 
@@ -13,7 +15,7 @@ import {LoginResponseModel} from "../types/Login-Response.model";
 })
 export class AuthService {
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private cookie: CookieService) { }
 
   register(model: RegisterRequestModel): Observable<RegisterResponseModel> {
     const httpOptions = {
@@ -31,26 +33,37 @@ export class AuthService {
       )
     );
   }
-  defaultState: AuthState = {
-    isLoggedIn: false,
-    email: '',
-    userId: '',
-    jwt: ''
-  }
-  logout(): void {
-    this.updateState(this.defaultState);
-  }
-  private stateSubject: BehaviorSubject<AuthState> = new BehaviorSubject(this.defaultState);
 
-  getState(): Observable<AuthState> {
-    return this.stateSubject.asObservable();
+  logout(): void {
+    localStorage.removeItem('email');
+    localStorage.removeItem('userId');
+    this.cookie.delete('Authorization', '/');
+    this.$user.next(undefined);
   }
-  state = signal(this.stateSubject);
-  private updateState(newState: Partial<AuthState>): void {
-    const currentState = this.stateSubject.value;
-    const updatedState = { ...currentState, ...newState };
-    this.stateSubject.next(updatedState);
+  $user = new BehaviorSubject<User | undefined>(undefined);
+  setUser(user: User) {
+    this.$user.next(user);
+    localStorage.setItem('email', user.email);
+    localStorage.setItem('userId', user.userId);
   }
+
+  getUser(): User | undefined {
+    const email = localStorage.getItem('email');
+    const userId = localStorage.getItem('userId');
+    if(email && userId) {
+      const user: User = {
+        email: email,
+        userId: userId
+      };
+      return user;
+    }
+    return undefined;
+  }
+
+  user(): Observable<User | undefined> {
+    return this.$user.asObservable();
+  }
+
   login(model: LoginRequestModel): Observable<LoginResponseModel> {
     const httpOptions = {
       headers: new HttpHeaders({
@@ -63,16 +76,7 @@ export class AuthService {
       ),
       tap(
         (data) => {
-          const tokenParts = data.token.split('.');
-          const encodedPayload = tokenParts[1];
-          const decodedPayload = atob(encodedPayload.replace(/-/g, '+').replace(/_/g, '/'));
-          const payload = JSON.parse(decodedPayload);
-          this.updateState({
-            jwt: data.token,
-            email: payload.email,
-            isLoggedIn: true,
-            userId: payload.nameid
-          });
+
         },
         (error) => {console.log(error)},
       )
@@ -80,9 +84,4 @@ export class AuthService {
   }
 }
 
-type AuthState = {
-  isLoggedIn: boolean;
-  email: string;
-  userId: string;
-  jwt: string;
-}
+
