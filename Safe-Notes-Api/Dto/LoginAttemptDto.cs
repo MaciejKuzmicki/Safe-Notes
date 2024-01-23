@@ -6,4 +6,6 @@ public class LoginAttemptDto
     public string IpAddress { get; set; }
     public DateTime Time { get; set; }
     
+    public string ClientName { get; set; }
+    
 }

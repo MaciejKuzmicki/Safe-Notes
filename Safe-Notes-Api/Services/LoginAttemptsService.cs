@@ -26,7 +26,7 @@ public class LoginAttemptsService : ILoginAttemptsService
             };
         }
         
-        var loginattempts = _context.LoginAttempts.Where(x => x.UserId.ToString() == userId).ToList();
+        var loginattempts = _context.LoginAttempts.Where(x => x.UserId.ToString() == userId).ToList().OrderByDescending(l=>l.Time).ToList();
         LoginAttemptDto[] loginAttemptToReturn = new LoginAttemptDto[loginattempts.Count];
         for (int i = 0; i < loginattempts.Count; i++)
         {
@@ -35,6 +35,7 @@ public class LoginAttemptsService : ILoginAttemptsService
                 IpAddress = loginattempts[i].IpAddress,
                 Success = loginattempts[i].Success,
                 Time = loginattempts[i].Time,
+                ClientName = loginattempts[i].ClientName,
             };
         }
         

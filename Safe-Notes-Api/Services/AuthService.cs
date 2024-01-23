@@ -21,7 +21,7 @@ public class AuthService : IAuthService
         _jwtSettings = jwtSettings;
     }
 
-    public async Task<ServiceResponse<LoginResponseDto>> Login(LoginRequestDto user, string ip)
+    public async Task<ServiceResponse<LoginResponseDto>> Login(LoginRequestDto user, string ip, string client)
     {
         User currentUser = _context.Users.FirstOrDefault(x => x.Email == user.Email);
         if (currentUser == null)
@@ -41,6 +41,28 @@ public class AuthService : IAuthService
         loginAttempt.UserId = currentUser.UserId;
         loginAttempt.Time = DateTime.UtcNow;
         loginAttempt.IpAddress = ip;
+        string browserName = "Unknown";
+        if (client.Contains("Firefox"))
+        {
+            browserName = "Firefox";
+        }
+        else if (client.Contains("Edg"))
+        {
+            browserName = "Edge";
+        }
+        else if (client.Contains("Chrome"))
+        {
+            browserName = "Chrome";
+        }
+        else if (client.Contains("Safari"))
+        {
+            browserName = "Safari";
+        }
+        else if (client.Contains("MSIE") || client.Contains("Trident"))
+        {
+            browserName = "Internet Explorer";
+        }
+        loginAttempt.ClientName = browserName;
         
 
         using (var hmac = new HMACSHA512(currentUser.PasswordSalt))

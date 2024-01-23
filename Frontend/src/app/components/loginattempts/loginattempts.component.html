@@ -1,6 +1,35 @@
-
-<div *ngFor="let log of logs">
-  <p>Date: {{log.time}} </p>
-  <p>Success: {{log.success}} </p>
-  <p>Ip: {{log.ipAddress}} </p>
+<div class="flex justify-center items-center p-1">
+  <div class="overflow-x-auto">
+    <table class="table table-lg">
+      <thead>
+      <tr>
+        <th>Date</th>
+        <th>Ip Address</th>
+        <th>Client Name</th>
+        <th>Status</th>
+      </tr>
+      </thead>
+      <tbody *ngFor="let log of logs">
+      <tr>
+        <td>{{ log.time }}</td>
+        <td>{{ log.ipAddress }}</td>
+        <td>{{log.clientName}}</td>
+        <td>
+          <div *ngIf="!log.success" class="badge badge-error gap-2">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" class="inline-block w-4 h-4 stroke-current"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+            error
+          </div>
+          <div *ngIf="log.success"  class="badge badge-success gap-2">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" class="inline-block w-4 h-4 stroke-current"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+            success
+          </div>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
 </div>
+
+
+
+

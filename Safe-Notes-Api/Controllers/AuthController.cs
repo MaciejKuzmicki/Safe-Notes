@@ -35,8 +35,9 @@ namespace Safe_Notes_Api.Controllers
         public async Task<ActionResult> Login([FromBody] LoginRequestDto user)
         {
             var ipAddress = HttpContext.Connection.RemoteIpAddress?.MapToIPv4().ToString();
+            var client = HttpContext.Request.Headers["User-Agent"].ToString();
 
-            var response = await _authService.Login(user, ipAddress);
+            var response = await _authService.Login(user, ipAddress, client);
             if (response.Success) return Ok(response.Data);
             else if (response.StatusCode == HttpStatusCode.NotFound)
             {
