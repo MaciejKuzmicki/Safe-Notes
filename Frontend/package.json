@@ -22,6 +22,7 @@
     "@ng-bootstrap/ng-bootstrap": "^15.1.2",
     "@popperjs/core": "^2.11.6",
     "@types/jwt-decode": "^3.1.0",
+    "angularx-qrcode": "^16.0.0",
     "bootstrap": "^5.2.3",
     "dompurify": "^3.0.8",
     "jwt-decode": "^4.0.0",

@@ -23,6 +23,7 @@ export class RegisterComponent implements OnInit, OnDestroy{
     Password: '',
   };
   response: RegisterResponseModel = {} as RegisterResponseModel;
+  totpUri: string = '';
   totpVisible: boolean = false;
 
   constructor(private formBuilder: FormBuilder, private authService: AuthService, private cdr: ChangeDetectorRef) {
@@ -54,7 +55,7 @@ export class RegisterComponent implements OnInit, OnDestroy{
       this.model.Email = this.myForm.get('email')?.value;
       this.model.Password = this.myForm.get('password')?.value;
       this.Subscription = this.authService.register(this.model).subscribe(
-        (response) => {this.response=response , this.totpVisible = true},
+        (response) => {this.response=response , this.totpVisible = true, this.totpUri = `otpauth://totp/${this.myForm.get('email')?.value}?secret=${this.response.totpSecret}&issuer=SafeNotes` },
         (error) => {
           if(error.status == '409') {
             this.errorMessage = "E-mail is taken..."

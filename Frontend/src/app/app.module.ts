@@ -15,6 +15,7 @@ import { NoteComponent } from './components/note/note.component';
 import { PasswordStrengthBarComponent } from './components/password-strength-bar/password-strength-bar.component';
 import { MynotesComponent } from './components/mynotes/mynotes.component';
 import { LoginattemptsComponent } from './components/loginattempts/loginattempts.component';
+import {QRCodeModule} from "angularx-qrcode";
 
 @NgModule({
   declarations: [
@@ -29,14 +30,15 @@ import { LoginattemptsComponent } from './components/loginattempts/loginattempts
     MynotesComponent,
     LoginattemptsComponent,
   ],
-    imports: [
-        BrowserModule,
-        NgbModule,
-        AppRoutingModule,
-        FormsModule,
-        HttpClientModule,
-        ReactiveFormsModule
-    ],
+  imports: [
+    BrowserModule,
+    NgbModule,
+    AppRoutingModule,
+    FormsModule,
+    HttpClientModule,
+    ReactiveFormsModule,
+    QRCodeModule
+  ],
   providers: [],
   bootstrap: [AppComponent]
 })
