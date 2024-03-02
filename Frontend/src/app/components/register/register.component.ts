@@ -54,8 +54,9 @@ export class RegisterComponent implements OnInit, OnDestroy{
     if(this.myForm.valid) {
       this.model.Email = this.myForm.get('email')?.value;
       this.model.Password = this.myForm.get('password')?.value;
+      const issuer = 'SafeNotes'
       this.Subscription = this.authService.register(this.model).subscribe(
-        (response) => {this.response=response , this.totpVisible = true, this.totpUri = `otpauth://totp/${this.myForm.get('email')?.value}?secret=${this.response.totpSecret}&issuer=SafeNotes` },
+        (response) => {this.response=response , this.totpVisible = true, this.totpUri = `otpauth://totp/${this.myForm.get('email')?.value}?secret=${this.response.totpSecret}&issuer=${issuer}` },
         (error) => {
           if(error.status == '409') {
             this.errorMessage = "E-mail is taken..."
