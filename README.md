@@ -81,7 +81,7 @@ Enjoy using the Safe Notes App locally!
   <br />
   <img src="Images/Register_Incorrect_data.png" style="max-width: 100%; height: auto;">
   <img src="Images/Register.png" style="max-width: 100%; height: auto;">
-  <p>After registration you will be given your totp secret as a QR Code, type this into your authenticator</p>
+  <p>After registration you will be given your totp secret as a QR Code, add this into your authenticator</p>
   <img src="Images/QR_Code.png" style="max-width: 100%; height: auto;">
 
   <li><strong>Login form</strong></li>
