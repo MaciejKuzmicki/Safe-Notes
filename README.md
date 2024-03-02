@@ -74,6 +74,10 @@ To run the Safe Notes App locally, you can use Docker Compose for a straightforw
 
 Enjoy using the Safe Notes App locally!
 
+# Database Diagram
+
+<img src="Images/Database Diagram.png" style="max-width:100%; height: auto;">
+
 # Screenshots
 
 <ul>
